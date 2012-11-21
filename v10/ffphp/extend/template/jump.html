@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html>
+<head>
+<title>页面提示</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv='Refresh' content='{$waitSecond};URL={$jumpUrl}'>
+<style>
+html, body{margin:0; padding:0; border:0 none;font:14px Tahoma,Verdana;line-height:150%;background:white}
+a{text-decoration:none; color:#174B73; border-bottom:1px dashed gray}
+a:hover{color:#F60; border-bottom:1px dashed gray}
+div.message{margin:10% auto 0px auto;clear:both;padding:5px;border:1px solid silver; text-align:center; width:45%}
+span#wait{color:blue;font-weight:bold}
+span.error{color:red;font-weight:bold}
+span.success{color:blue;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="message">
+	<div class="msg">
+	<{if $status ==1}>
+	<span style="font: italic bold 2cm cursive,serif; color:green">ok</span>
+	<span class="success"><br /><{$msg}></span>
+	<{elseif $status==2}>
+
+	<span style="font: italic bold 2cm cursive,serif; color:red">X</span>	
+	<span class="error"><br /><{$msg}></span>
+	<{elseif $status==0}>
+	<span class="success"><{$msg}></span>
+	<style>.msg{margin:20px 0px;}</style>
+	<{/if}>
+	</div>
+	<div class="tip">
+	<{if $status ==1}>
+	页面将在 <span id="wait"><{$time}></span> 秒后自动跳转，如果不想等待请点击 <a href="<{if $location}><{$app}><{$location}><{else}>javascript:window.history.back();<{/if}>">这里</a> 跳转
+	<{elseif $status==2}>
+	页面将在 <span id="wait"><{$time}></span> 秒后自动跳转，如果不想等待请点击 <a href="<{if $location}><{$app}><{$location}><{else}>javascript:window.history.back();<{/if}>">这里</a> 跳转
+	<{elseif $status==0}>
+	页面将在 <span id="wait"><{$time}></span> 秒后自动跳转，如果不想等待请点击 <a href="<{if $location}><{$app}><{$location}><{else}>javascript:window.history.back();<{/if}>">这里</a> 跳转	
+	<{/if}>
+	</div>
+</div>
+</body>
+
+		 <script>
+			 var timeStr=document.getElementById("wait");
+				var time=<{$time}>;
+				var tt=setInterval(function(){
+						time--;
+						timeStr.innerHTML=time;	
+						if(time<=0){
+						<{if $location}>
+												window.location='<{$app}><{$location}>';
+						<{else}>
+												window.history.back();
+						<{/if}>
+						clearInterval(tt);						
+							return;
+						}
+					}, 1000);
+
+		</script>
+</html>
+
