@@ -149,7 +149,7 @@ class pdoSys extends dbBaseSys
 	private function &read($args)
 	{
 		$sql='SELECT '.$args.' FROM `'.$this->tableName.'`';
-		$sql.=$this->where.$this->group.$this->order.$this->limit.',,,,';
+		$sql.=$this->where.$this->group.$this->order.$this->limit;
 		DEBUG and self::$sql[]=$sql;
 		$pdo = $this->pdo->prepare($sql);
 		$pdo or errorMsg('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
