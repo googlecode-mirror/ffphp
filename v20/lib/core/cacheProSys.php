@@ -31,13 +31,13 @@ class cacheProSys
 			$string = M($module)->$action();
 			if($string === null)
 			{
-				trigger_error("[<b>{$module}Module->{$action}()</b>] This function has no return value or the return value is null");
+				errorMsg("[<b>{$module}Module->{$action}()</b>] 这个模型中的函数没有返回值或返回值为空!",E_USER_NOTICE);
 			}
 			return $string;
 		}
 		else
 		{
-			trigger_error("[<b>{$module}Module->{$action}()</b>] This Function Does Not Exist");
+			errorMsg("[<b>{$module}Module->{$action}()</b>] 这个模型中的函数不存在!",E_USER_NOTICE);
 			return false;
 		}
 	}

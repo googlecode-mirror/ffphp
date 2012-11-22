@@ -87,3 +87,34 @@ function &M($name=null)
 
 	return $module[$name];
 }
+
+// 异常抛出方法
+//
+// $msg string 错误信息
+// $level int 错误级别 [E_USER_NOTICE E_USER_WARNING E_USER_ERROR]
+// $type int 错误类型 [1=>sql语句]
+// $add string 错误附加信息
+function errorMsg($msg,$level=E_USER_NOTICE,$type=0,$add=null)
+{
+	//如果没有开启DEBUG
+	if(!DEBUG)
+	{
+		return;
+	}
+	//开启DEBUG 目前采用系统异常抛出
+	else
+	{
+		switch ($type)
+		{
+			case 0:
+				break;
+			case 1:
+				echo 'SQL:',end(D());
+				break;
+			default:
+				echo $add;
+		}
+		trigger_error($msg,$level);
+	}
+
+}
