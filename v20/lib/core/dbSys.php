@@ -53,6 +53,7 @@ class pdoSys extends dbBaseSys
 		{
 			array_push($key,':'.$k);
 		}
+		$data or errorMsg('没有可以添加的数据!');
 		//生成绑定数组
 		$datas=array_combine($key,array_values($data));
 		//生成准备查询语句
@@ -129,7 +130,7 @@ class pdoSys extends dbBaseSys
 			$args = '`'.join('`,`',$this->tableInfo['list']).'`';
 		}
 		$select=&$this->read($args);
-		$select or trigger_error('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
+		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
 		return $select->fetch(PDO::FETCH_ASSOC);
 	}
 	//查询多条
@@ -140,7 +141,7 @@ class pdoSys extends dbBaseSys
 			$args = '`'.join('`,`',$this->tableInfo['list']).'`';
 		}
 		$select=&$this->read($args);
-		$select or trigger_error('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
+		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
 		$this->rows = $select->rowCount();
 		return $select->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -148,10 +149,10 @@ class pdoSys extends dbBaseSys
 	private function &read($args)
 	{
 		$sql='SELECT '.$args.' FROM `'.$this->tableName.'`';
-		$sql.=$this->where.$this->group.$this->order.$this->limit;
+		$sql.=$this->where.$this->group.$this->order.$this->limit.',,,,';
 		DEBUG and self::$sql[]=$sql;
 		$pdo = $this->pdo->prepare($sql);
-		$pdo or trigger_error('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
+		$pdo or errorMsg('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
 		$pdo->execute();
 		return $pdo;
 	}
@@ -162,7 +163,7 @@ class pdoSys extends dbBaseSys
 		$sql.=$this->where.$this->group.$this->order.$this->limit;		
 		DEBUG and self::$sql[]=$sql;
 		$data=$this->pdo->query($sql);
-		$data or trigger_error('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);		
+		$data or errorMsg('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);		
 		$num=$data->fetch();
 		return $num[0];
 	}
@@ -308,7 +309,7 @@ class pdoViewSys extends dbBaseSys
 			$args = join(',',array_keys($this->tableInfo['fields']));
 		}
 		$select=&$this->read($args);
-		$select or trigger_error('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
+		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
 		return $select->fetch(PDO::FETCH_ASSOC);
 	}
 	//查询多条
@@ -319,7 +320,7 @@ class pdoViewSys extends dbBaseSys
 			$args = join(',',array_keys($this->tableInfo['fields']));
 		}
 		$select=&$this->read($args);
-		$select or trigger_error('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
+		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
 		$this->rows = $select->rowCount();
 		return $select->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -331,7 +332,7 @@ class pdoViewSys extends dbBaseSys
 		$sql.=$this->replaceFields($this->group.$this->order.$this->limit);
 		DEBUG and self::$sql[]=$sql;
 		$pdo = $this->pdo->prepare($sql);
-		$pdo or trigger_error('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
+		$pdo or errorMsg('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
 		$pdo->execute();
 		return $pdo;
 	}
@@ -343,7 +344,7 @@ class pdoViewSys extends dbBaseSys
 		$sql.=$this->replaceFields($this->group.$this->order.$this->limit);
 		DEBUG and self::$sql[]=$sql;
 		$data=$this->pdo->query($sql);
-		$data or trigger_error('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
+		$data or errorMsg('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
 		$num=$data->fetch();
 		return $num[0];
 	}
@@ -375,7 +376,7 @@ class pdoViewSys extends dbBaseSys
 			//检查配置文件是否合格
 			if(!isset($config['db'],$config['fields'],$config['links']))
 			{
-				trigger_error('<b>'.$url.'</b> 该配置文件缺少参数,请核对!',E_USER_ERROR);
+				errorMsg('<b>'.$url.'</b> 该配置文件缺少参数,请核对!',E_USER_ERROR);
 			}
 			$return_value['db'] = $config['db'];
 			$fieldKey = str_replace('@',C('prefix'),array_keys($config['fields']));
@@ -494,7 +495,7 @@ class dbSys
 			}
 			else
 			{
-				trigger_error('<b>'.$dbName.'</b> Not found the database configuration information in C(\'database\')');
+				errorMsg('<b>'.$dbName.'</b> 没有找到这个数据库的配置信息,请查看C(\'database\')',E_USER_ERROR);
 				return false;
 			}
 		}
@@ -508,7 +509,7 @@ class dbSys
 		if(is_null($info))
 		{
 			$res = self::getConnect($dbName)->query('DESC '.$tableName);
-			$res or trigger_error('<b>'.$tableName.'</b> The data table does not exist',E_USER_ERROR);
+			$res or errorMsg('<b>'.$tableName.'</b> 这个表在数据库中不存在!',E_USER_ERROR);
 			$info=array();
 			$info['list']=array();
 			foreach($res->fetchAll(PDO::FETCH_ASSOC) as $item)
