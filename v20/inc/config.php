@@ -3,6 +3,8 @@
 return array(
 	'defaultControl'=>'index',
 	'defaultAction'=>'index',
+	'tempPath'=>SYS_PATH.'tmp/',
+
 	'memcache'=>array(
 		array('127.0.0.1', 11211),	
 	),
