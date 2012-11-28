@@ -9,7 +9,7 @@ class viewSys extends Smarty
 	{
 		parent::__construct();
 	 	$this->template_dir=SYS_APP.'view/';//设置模版目录
-		$this->compile_dir=SYS_PATH.'compile/';//设置编译文件目录
+		$this->compile_dir=C('tempPath');//设置编译文件目录
 		$this->left_delimiter='<{';
 		$this->right_delimiter='}>';
 	}

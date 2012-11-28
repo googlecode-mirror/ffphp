@@ -24,7 +24,7 @@ class cacheProSys
 	private function getModuleString($value)
 	{
 		list($module,$action) = explode('.',$value);
-		$moudle = trim($moudle);
+		$module = trim($module);
 		$action = trim($action);
 	
 		if(method_exists(M($module),$action))
