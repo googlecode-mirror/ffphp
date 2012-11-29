@@ -4,9 +4,19 @@
  */
 class DemoControl extends controlSys
 {
+	function init()
+	{
+		echo 111;
+	}
 	function index()
 	{
-		var_dump(Q());
+		//$url = array(
+		//	array(),
+		//	array(),
+		//);
+		//$this->urlcheck();
+		$date = $this->getParam('qpage:int','id','page');
+		var_dump($date,Q());
 		$this->display('list2.html',0,2);
 	}
 

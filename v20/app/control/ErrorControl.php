@@ -4,12 +4,11 @@
  */
 class ErrorControl extends controlSys
 {
-
-	function Error404()
+	function E404()
 	{
 		header('HTTP/1.1 404 Not Found');
-		var_dump(Q());
 		echo '<center><h2>Error 404</h2></center>';
+		//输出自己的404模版
+		//$this->display('404.html');
 	}
-	
 }
