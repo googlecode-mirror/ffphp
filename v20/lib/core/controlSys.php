@@ -72,7 +72,6 @@ class controlSys extends viewSys
 		}
 		return $return_value;
 	}
-	
 	//检测字符真实类型
 	final public function checkType($str,$type)
 	{
