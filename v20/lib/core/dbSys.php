@@ -241,6 +241,7 @@ class pdoSys extends dbBaseSys
 		return $data;
 	}
 }
+
 /*
  * 数据库视图类
  */

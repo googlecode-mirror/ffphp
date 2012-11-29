@@ -2,9 +2,9 @@
 //路由访问处理
 return array(
 	'404\.htm'=>array(
-		'control'=>'demo',
-		'action'=>'test',
-		'cache'=>3600
+		'control'=>'error',
+		'action'=>'e404',
+		'cache'=>0
 	),
 	'demo\.php'=>array(
 		'control'=>'demo',
