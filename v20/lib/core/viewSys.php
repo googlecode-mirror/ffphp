@@ -12,6 +12,8 @@ class viewSys extends Smarty
 		$this->compile_dir=C('tempPath');//设置编译文件目录
 		$this->left_delimiter='<{';
 		$this->right_delimiter='}>';
+		$this->assign('app',V_APP);
+		$this->assign('public',V_PUBLIC);
 	}
 	function display($template,$cache=0,$args=null)
 	{

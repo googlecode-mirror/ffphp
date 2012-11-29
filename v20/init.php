@@ -35,7 +35,6 @@ function __autoload($className)
 	include strtolower($className).'.php';
 }
 
-
 //载入数据库类
 include SYS_LIB.'core/dbSys.php';
 
@@ -64,6 +63,12 @@ $_action = Q('action');
 include SYS_LIB.'smarty/Smarty.class.php';
 include SYS_LIB.'core/viewSys.php';
 include SYS_LIB.'core/controlSys.php';
+
+//定义模版中用到的变量
+define('V_DOMAIN','http://'.$_SERVER['SERVER_NAME']);
+define('V_APP',V_DOMAIN.'/');
+//资源域名在这里修改
+define('V_PUBLIC',V_DOMAIN.'/public/');
 
 //架构控制器
 if(file_exists($_control_file))
