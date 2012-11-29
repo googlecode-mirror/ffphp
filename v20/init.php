@@ -10,10 +10,6 @@ define ('SYS_LIB',SYS_PATH.'lib/');
 define ('SYS_INC',SYS_PATH.'inc/');
 define ('SYS_CLASS',SYS_PATH.'class/');
 
-//多项目时这里判断
-	define ('SYS_NAME','app');
-	define ('SYS_APP',SYS_PATH.SYS_NAME.'/');
-
 //加载核心文件
 require SYS_INC.'function.php';
 require SYS_LIB.'core/routeSys.php';
@@ -21,15 +17,14 @@ require SYS_LIB.'core/cacheSys.php';
 require SYS_LIB.'core/memcacheSys.php';
 //加载配置文件
 C(require SYS_INC.'config.php');
-//路径解析
-//$SysRoute = new routeSys(require SYS_APP.'route.php');
-//$SysCache = new cacheSys($SysRoute->getConfig());
+
+//路由缓存联合控制器
 $SysCache = new cacheSys(new routeSys(require SYS_APP.'route.php'));
 
 //记录解析后的数据
 Q($SysCache->getConfig());
 
-//设置类的自动加载
+//设置类的自动加载[可优化到Apache配置文件中]
 $SysIncludePath=array(
 	'./',
 	SYS_CLASS,
@@ -46,7 +41,6 @@ include SYS_LIB.'core/dbSys.php';
 
 //载入二级缓存类
 include SYS_LIB.'core/cacheProSys.php';
-
 
 if($SysCache->cachePro)
 {
@@ -71,6 +65,7 @@ include SYS_LIB.'smarty/Smarty.class.php';
 include SYS_LIB.'core/viewSys.php';
 include SYS_LIB.'core/controlSys.php';
 
+//架构控制器
 if(file_exists($_control_file))
 {
 	include SYS_APP.'control/'.$_control.'.php';
