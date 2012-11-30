@@ -35,23 +35,26 @@ function __autoload($className)
 	include strtolower($className).'.php';
 }
 
-//载入数据库类
+//载入Dao层
 include SYS_LIB.'core/dbSys.php';
 
 //载入二级缓存类
 include SYS_LIB.'core/cacheProSys.php';
 
+//如果是二级缓存则解析输出
 if($SysCache->cachePro)
 {
 	$SysCachePro = new cacheProSys($SysCache->cachePro);
 	//二更缓存在些更新输出
 	DEBUG or exit(strtr($SysCache->cacheContent,$SysCachePro->getConfig()));
 
+	///{{{DEBUG
 	echo strtr($SysCache->cacheContent,$SysCachePro->getConfig()),
 	'<span style="border:1px #ccc dashed;font-size:14px;padding:5px;"><font color="red">CachePro Data</font> cacheKey:['.Q('cacheKey').'] time:',
 	mf() - $GLOBALS['start_time'],
 	'</span>';
 	exit;
+	///}}}
 }
 
 unset($SysCache);

@@ -18,6 +18,18 @@ class cacheModule
 	}
 	function index()
 	{
-		
+		var_dump($_GET);
+		$data['ss']=2222;
+		$data['qqq']=2222;
+		return 	$data;
+	}
+	function index2()
+	{
+		$data['dd']=01000;
+		return 	$data;
+	}
+	function index0()
+	{
+		return 'string return';
 	}
 }
