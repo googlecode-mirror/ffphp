@@ -4,15 +4,15 @@
  */
 class memcacheSys
 {
-	static $mem;
-	static function getInstance()
+	private static $obj;
+	private static $mem;
+	public static function getInstance()
 	{
-		static $obj;
-		if(empty($obj))
+		if(empty(self::$obj))
 		{
-			$obj = new self;
+			self::$obj = new self;
 		}
-		return $obj;
+		return self::$obj;
 
 	}
 	function __construct()
@@ -36,4 +36,9 @@ class memcacheSys
 	{
 		return self::$mem->delete($key);
 	}
+	function close()
+	{
+		return self::$mem->close();
+	}
+
 }
