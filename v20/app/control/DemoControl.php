@@ -6,7 +6,7 @@ class DemoControl extends controlSys
 {
 	function init()
 	{
-		echo 111;
+	//	echo 111;
 	}
 	function index()
 	{
@@ -43,7 +43,7 @@ class DemoControl extends controlSys
 	}
 	function test()
 	{
-		$this->display('list1.html',4);
+		$this->display('cachePro.html',4);
 	}
 
 	function eerror()
