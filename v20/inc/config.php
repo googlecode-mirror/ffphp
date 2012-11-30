@@ -14,4 +14,6 @@ return array(
 		'db3'=>array('mysql:host=localhost;dbname=hucai','root','123456'),
 	),
 	'prefix'=>'',
+
+	'mongodb'=>'',
 );
