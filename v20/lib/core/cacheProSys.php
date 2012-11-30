@@ -5,7 +5,7 @@
 class cacheProSys
 {
 	private $config=array();
-	private static $moduleReturn=array();
+	private $moduleReturn=array();
 	public function __construct($match)
 	{
 		$this->parseConfig($match);
@@ -20,8 +20,7 @@ class cacheProSys
 		{
 			$this->config[$match[0][$key]] = $this->getModuleString($value);	
 		}
-		
-		self::$moduleReturn = array();
+		unset($this->moduleReturn);
 	}
 	private function getModuleString($value)
 	{
@@ -52,7 +51,7 @@ class cacheProSys
 	{
 		//标识符
 		$key = $module.'#'.$action;
-		if(!isset(self::$moduleReturn[$key]))
+		if(!isset($this->moduleReturn[$key]))
 		{
 			if(method_exists(M($module),$action))
 			{
@@ -61,14 +60,14 @@ class cacheProSys
 				{
 					errorMsg("[错误标签:<b>{{{{$module}.{$action}}}}</b>] [调用方法:<b>{$module}Module->{$action}()</b>] 这个模型中的函数没有返回值或返回值为空!",E_USER_NOTICE);
 				}
-				self::$moduleReturn[$key] = $string;
+				$this->moduleReturn[$key] = $string;
 			}
 			else
 			{
 				errorMsg("[错误标签:<b>{{{{{$module}.{$action}}}}}</b>] [调用方法:<b>{$module}Module->{$action}()</b>] 这个模型中的函数不存在!",E_USER_NOTICE);
-				self::$moduleReturn[$key] = false;
+				$this->moduleReturn[$key] = false;
 			}
 		}
-		return self::$moduleReturn[$key];
+		return $this->moduleReturn[$key];
 	}
 }
