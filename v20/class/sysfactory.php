@@ -6,7 +6,7 @@ class SysFactory
 {
 	static function memcache()
 	{
-		return memcacheSys::getInstance();
+		return \Sys\memcache::getInstance();
 	}
 
 }

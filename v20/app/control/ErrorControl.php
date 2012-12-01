@@ -2,7 +2,7 @@
 /*
  * 访问错误控制器
  */
-class ErrorControl extends controlSys
+class ErrorControl extends control
 {
 	function E404()
 	{

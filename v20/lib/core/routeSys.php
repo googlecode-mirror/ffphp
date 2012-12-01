@@ -2,8 +2,8 @@
 /*
  * 路由解析类
  */
-
-class routeSys
+namespace Sys;
+class route
 {
 	private $routeConfig;
 	private $pregArr;
