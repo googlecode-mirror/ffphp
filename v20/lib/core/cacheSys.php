@@ -2,13 +2,14 @@
 /*
  * 缓存控制器
  */
-class cacheSys
+namespace Sys;
+class cache
 {
 	public $cachePro = array();
 	public $cacheContent;
 	private $config;
 	private $cacheKey;
-	function __construct(routeSys $route)
+	function __construct(route $route)
 	{
 		$this->config = $route->getConfig();
 
@@ -31,7 +32,7 @@ class cacheSys
 	}
 	private function getCache()
 	{
-		if($this->cacheContent = memcacheSys::getInstance()->get($this->cacheKey))
+		if($this->cacheContent = memcache::getInstance()->get($this->cacheKey))
 		{
 			if(preg_match_all('/{{{(.*?)}}}/',$this->cacheContent,$this->cachePro))
 			{

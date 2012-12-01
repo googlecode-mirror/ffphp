@@ -2,7 +2,8 @@
 /*
  * Memcache 简易版
  */
-class memcacheSys
+namespace Sys;
+class memcache
 {
 	private static $obj;
 	private static $mem;
@@ -17,7 +18,7 @@ class memcacheSys
 	}
 	function __construct()
 	{
-			self::$mem = new Memcache;
+			self::$mem = new \Memcache;
 			foreach(C('memcache') as $item)
 			{
 				self::$mem->addServer($item[0],$item[1]);

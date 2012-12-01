@@ -2,8 +2,8 @@
 /*
  * 视图基类
  */
-
-class viewSys extends Smarty
+namespace Sys;
+class view extends \Smarty
 {
 	function __construct()
 	{
@@ -22,18 +22,18 @@ class viewSys extends Smarty
 		if(is_null($args)|| (int)$args > count(Q('args'))){
 			if(intval($cache) > 0)
 			{
-				SysFactory::memcache()->set(Q('cacheKey'),$displayHtml,$cache);
+				\SysFactory::memcache()->set(Q('cacheKey'),$displayHtml,$cache);
 			}
 			else if(Q('cacheTime')>0)
 			{
-				SysFactory::memcache()->set(Q('cacheKey'),$displayHtml,Q('cacheTime'));
+				\SysFactory::memcache()->set(Q('cacheKey'),$displayHtml,Q('cacheTime'));
 			}
 		}
 
 
 		if(preg_match_all('/{{{(.*?)}}}/',$displayHtml,$cacheProMatch))
 		{
-			$SysCachePro = new cacheProSys($cacheProMatch);
+			$SysCachePro = new cachePro($cacheProMatch);
 			$displayHtml = strtr($displayHtml,$SysCachePro->getConfig());
 			unset($SysCachePro);
 		}

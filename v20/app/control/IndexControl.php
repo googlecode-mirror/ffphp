@@ -2,7 +2,7 @@
 /*
  * 域控制器基类
  */
-class IndexControl extends controlSys
+class IndexControl extends control
 {
 
 	function index()

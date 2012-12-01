@@ -2,8 +2,8 @@
 /*
  * 域控制器基类
  */
-
-class controlSys extends viewSys
+namespace Sys;
+class control extends view
 {
 	static $modules;
 	public static function getInstance($control)

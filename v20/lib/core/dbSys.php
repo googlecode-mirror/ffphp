@@ -2,7 +2,8 @@
 /*
  * 数据库操作类
  */
-class pdoSys extends dbBaseSys
+namespace Sys;
+class pdo extends dbBase
 {
 
 	 static $obj;			//单例对象
@@ -27,9 +28,9 @@ class pdoSys extends dbBaseSys
 
 		self::$obj -> tableName = $tableName;
 
-		self::$obj -> pdo = dbSys::getConnect($dbName);
+		self::$obj -> pdo = db::getConnect($dbName);
 
-		self::$obj -> tableInfo = dbSys::getTableInfo($dbName,$tableName);
+		self::$obj -> tableInfo = db::getTableInfo($dbName,$tableName);
 
 		self::$obj -> setNull();
 
@@ -130,7 +131,7 @@ class pdoSys extends dbBaseSys
 		}
 		$select=&$this->read($args);
 		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
-		return $select->fetch(PDO::FETCH_ASSOC);
+		return $select->fetch(\PDO::FETCH_ASSOC);
 	}
 	//查询多条
 	public function select($args=null)
@@ -142,7 +143,7 @@ class pdoSys extends dbBaseSys
 		$select=&$this->read($args);
 		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
 		$this->rows = $select->rowCount();
-		return $select->fetchAll(PDO::FETCH_ASSOC);
+		return $select->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	//查询基类
 	private function &read($args)
@@ -245,7 +246,7 @@ class pdoSys extends dbBaseSys
 /*
  * 数据库视图类
  */
-class pdoViewSys extends dbBaseSys
+class pdoView extends dbBase
 {
 	 static $obj;			//单例对象
 		
@@ -271,7 +272,7 @@ class pdoViewSys extends dbBaseSys
 
 	  self::$obj->tableInfo = self::$obj->getTableInfo();
 
-		self::$obj ->pdo = dbSys::getConnect(self::$obj->tableInfo['db']);
+		self::$obj ->pdo = db::getConnect(self::$obj->tableInfo['db']);
 
 		return self::$obj;
 	}
@@ -310,7 +311,7 @@ class pdoViewSys extends dbBaseSys
 		}
 		$select=&$this->read($args);
 		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
-		return $select->fetch(PDO::FETCH_ASSOC);
+		return $select->fetch(\PDO::FETCH_ASSOC);
 	}
 	//查询多条
 	public function select($args=null)
@@ -322,7 +323,7 @@ class pdoViewSys extends dbBaseSys
 		$select=&$this->read($args);
 		$select or errorMsg('<b>'.reset(self::$sql).'</b> 该SQl语句没有查询到数据!');
 		$this->rows = $select->rowCount();
-		return $select->fetchAll(PDO::FETCH_ASSOC);
+		return $select->fetchAll(\PDO::FETCH_ASSOC);
 	}
 	//查询基类
 	private function &read($args)
@@ -360,11 +361,11 @@ class pdoViewSys extends dbBaseSys
 			//生成缓存Key [tableSys#库名#表名]
 			$memKey = 'tableSys#'.$this->tableName;
 			//DEBUG模式下不记录缓存
-			$info = DEBUG ? null : SysFactory::memcache() -> get($memKey);
+			$info = DEBUG ? null : \SysFactory::memcache() -> get($memKey);
 			if(is_null($info))
 			{
 				$config = $this->loadConfig(SYS_PATH.'data/'.strtolower($this->tableName).'.php');
-				SysFactory::memcache() -> set($memKey,$config,3600);
+				\SysFactory::memcache() -> set($memKey,$config,3600);
 			}
 			return $config;
 		}
@@ -395,7 +396,7 @@ class pdoViewSys extends dbBaseSys
 /*
  * 数据库基类
  */
-abstract class dbBaseSys
+abstract class dbBase
 {
 	static $sql;			//SQL语句记录
 	public $tableName;//数据表名
@@ -468,7 +469,7 @@ abstract class dbBaseSys
 /*
  * 数据库信息管理类
  */
-class dbSys
+class db
 {
 	public static $connect=array(); //数据库链接
 	public static $table = array(); //数据表信息
@@ -491,7 +492,7 @@ class dbSys
 			{
 				list($dsn,$usr,$pwd) = $config[$dbName];
 				//记录链接并返回
-				return $connect[$dbName] = new PDO($dsn,$usr,$pwd);
+				return $connect[$dbName] = new \PDO($dsn,$usr,$pwd);
 			}
 			else
 			{
@@ -505,14 +506,14 @@ class dbSys
 		//生成缓存Key [tableSys#库名#表名]
 		$memKey = 'tableSys#'.$dbName.'#'.$tableName;
 		//DEBUG模式下不记录缓存
-		$info = DEBUG ? null : SysFactory::memcache() -> get($memKey);
+		$info = DEBUG ? null : \SysFactory::memcache() -> get($memKey);
 		if(is_null($info))
 		{
 			$res = self::getConnect($dbName)->query('DESC '.$tableName);
 			$res or errorMsg('<b>'.$tableName.'</b> 这个表在数据库中不存在!',E_USER_ERROR);
 			$info=array();
 			$info['list']=array();
-			foreach($res->fetchAll(PDO::FETCH_ASSOC) as $item)
+			foreach($res->fetchAll(\PDO::FETCH_ASSOC) as $item)
 			{
 				//记录字段列表
 				array_push($info['list'],$item['Field']);
@@ -525,7 +526,7 @@ class dbSys
 			//如里没有主键则第一具字段填充
 			empty($info['pri']) and $table['pri'] = reset($table['list']);
 			//加入缓存
-			SysFactory::memcache() -> set($memKey,$info,3600);
+			\SysFactory::memcache() -> set($memKey,$info,3600);
 		}
 		return $info;
 	}

@@ -2,7 +2,7 @@
 /*
  * 域控制器基类
  */
-class DemoControl extends controlSys
+class DemoControl extends control
 {
 	function init()
 	{

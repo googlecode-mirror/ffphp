@@ -2,7 +2,8 @@
 /*
  * 二级缓存控制器
  */
-class cacheProSys
+namespace Sys;
+class cachePro
 {
 	private $config=array();
 	private $moduleReturn=array();

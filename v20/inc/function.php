@@ -36,17 +36,17 @@ function D($tableName=null,$dbName=null)
 	//空参数返回SQL语句
 	if(is_null($tableName))
 	{
-		return pdoSys::$sql;
+		return \Sys\pdo::$sql;
 	}
 	//一个参数返回虚拟表
 	elseif(is_null($dbName))
 	{
-		return pdoViewSys::getInstance($tableName);
+		return \Sys\pdoView::getInstance($tableName);
 	}
 	//两个参数返回数表模型
 	else
 	{
-		return pdoSys::getInstance(C('prefix').$tableName,$dbName);
+		return \Sys\pdo::getInstance(C('prefix').$tableName,$dbName);
 	}
 }
 

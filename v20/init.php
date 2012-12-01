@@ -19,7 +19,7 @@ require SYS_LIB.'core/memcacheSys.php';
 C(require SYS_INC.'config.php');
 
 //路由缓存联合控制器
-$SysCache = new cacheSys(new routeSys(require SYS_APP.'route.php'));
+$SysCache = new \Sys\cache(new \Sys\route(require SYS_APP.'route.php'));
 
 //记录解析后的数据
 Q($SysCache->getConfig());
@@ -44,7 +44,7 @@ include SYS_LIB.'core/cacheProSys.php';
 //如果是二级缓存则解析输出
 if($SysCache->cachePro)
 {
-	$SysCachePro = new cacheProSys($SysCache->cachePro);
+	$SysCachePro = new \Sys\cachePro($SysCache->cachePro);
 	//二更缓存在些更新输出
 	DEBUG or exit(strtr($SysCache->cacheContent,$SysCachePro->getConfig()));
 
@@ -66,6 +66,7 @@ $_action = Q('action');
 include SYS_LIB.'smarty/Smarty.class.php';
 include SYS_LIB.'core/viewSys.php';
 include SYS_LIB.'core/controlSys.php';
+class_alias('\Sys\control','control');
 
 //定义模版中用到的变量
 define('V_DOMAIN','http://'.$_SERVER['SERVER_NAME']);
@@ -93,15 +94,3 @@ if(!isset($_obj))
 		$_obj = ErrorControl::getInstance('ErrorControl');
 		$_obj -> Error404();
 }
-
-
-//{{{DeBug
-function unloadSys()
-{
-	echo '<span style="border:1px #ccc dashed;font-size:14px;padding:5px;">cacheKey:['.Q('cacheKey').'] 
-	time:';
-	echo mf() - $GLOBALS['start_time'];
-	echo '</span>';
-}
-DEBUG and register_shutdown_function('unloadSys');
-//}}}
