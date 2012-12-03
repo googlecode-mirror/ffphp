@@ -30,6 +30,11 @@ class route
 	//解析路由地址
 	private function routeUrl()
 	{
+	    if(empty($_SERVER['REDIRECT_URL']))
+	    {
+	        $_SERVER['REDIRECT_URL'] = null;
+	        return false;
+	    }
 		foreach($this->pregArr as $item)
 		{
 
