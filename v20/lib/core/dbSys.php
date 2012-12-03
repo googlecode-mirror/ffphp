@@ -358,7 +358,7 @@ class pdoView extends dbBase
 		//获取表信息
 		private function getTableInfo()
 		{
-			//生成缓存Key [tableSys#库名#表名]
+			//生成缓存Key [tableSys#虚拟表名]
 			$memKey = 'tableSys#'.$this->tableName;
 			//DEBUG模式下不记录缓存
 			$info = DEBUG ? null : \SysFactory::memcache() -> get($memKey);
