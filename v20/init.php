@@ -17,7 +17,7 @@ require SYS_LIB.'core/cacheSys.php';
 require SYS_LIB.'core/memcacheSys.php';
 //加载配置文件
 C(require SYS_INC.'config.php');
-exit;
+
 //路由缓存联合控制器
 $SysCache = new \Sys\cache(new \Sys\route(require SYS_APP.'route.php'));
 
