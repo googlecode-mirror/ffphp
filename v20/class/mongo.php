@@ -14,5 +14,13 @@ class mongo
 		return self::$obj;
 	}
 
+	function __construct()
+	{
+			self::$mem = new \Memcache;
+			foreach(C('memcache') as $item)
+			{
+				self::$mem->addServer($item[0],$item[1]);
+			}
+	}
 
 }
