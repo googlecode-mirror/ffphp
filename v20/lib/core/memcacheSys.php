@@ -16,6 +16,19 @@ class memcache
 		return self::$obj;
 
 	}
+	
+	public static function close()
+	{
+		if(self::$obj)
+		{
+		 return	self::$mem->close();
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	function __construct()
 	{
 			self::$mem = new \Memcache;
@@ -36,10 +49,6 @@ class memcache
 	function del($key)
 	{
 		return self::$mem->delete($key);
-	}
-	function close()
-	{
-		return self::$mem->close();
 	}
 
 }

@@ -36,8 +36,11 @@ class DemoControl extends control
 		self::$modules['xx']=22222;
 			
 		M('Indexlist');
-		M('Indexlist');
-
+		var_dump(M('Indexlist'));
+		$d = new IndexlistModule;
+		$s = new IndexlistModule;
+		var_dump(M('Indexlist'));
+		var_dump(M('Indexlist'),$d,$s);
 		var_dump(M());
 		$indexModule -> getListBy(2222);
 	}
