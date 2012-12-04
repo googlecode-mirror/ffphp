@@ -274,7 +274,7 @@ class pdoView extends dbBase
 
 	  self::$obj ->pdo = db::getConnect(self::$obj->tableInfo['db']);
 
-	  self::$obj->where=self::$obj->tableInfo['links'];
+	  self::$obj->where=' where '.self::$obj->tableInfo['links'];
 
 	  return self::$obj;
 	}
