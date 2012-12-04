@@ -1,4 +1,5 @@
 <?php
+session_start();
 //开启DEBUG
 define ('DEBUG',true);
 date_default_timezone_set('PRC');
@@ -51,7 +52,7 @@ if($SysCache->cachePro)
 	///{{{DEBUG
 	echo strtr($SysCache->cacheContent,$SysCachePro->getConfig()),
 	'<span style="border:1px #ccc dashed;font-size:14px;padding:5px;"><font color="red">CachePro Data</font> cacheKey:['.Q('cacheKey').'] time:',
-	mf() - $GLOBALS['start_time'],
+	Sys_Microtime() - $GLOBALS['start_time'],
 	'</span>';
 	exit;
 	///}}}
