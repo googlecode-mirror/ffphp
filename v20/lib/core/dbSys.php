@@ -272,9 +272,11 @@ class pdoView extends dbBase
 
 	  self::$obj->tableInfo = self::$obj->getTableInfo();
 
-		self::$obj ->pdo = db::getConnect(self::$obj->tableInfo['db']);
+	  self::$obj ->pdo = db::getConnect(self::$obj->tableInfo['db']);
 
-		return self::$obj;
+	  self::$obj->where=self::$obj->tableInfo['links'];
+
+	  return self::$obj;
 	}
 
 	//
@@ -282,21 +284,13 @@ class pdoView extends dbBase
 	//
 	public function where($str='')
 	{
-		$this->where=' where ';
-		foreach($this->tableInfo['links'] as $key => $value)
+		if($str)
 		{
-			$this->where.=$key.' = '.$value.' and ';
-		}
-		if(empty ($str))
-		{
-			$this->where = chop($this->where,' and ');
-		}
-		else
-		{
-			$this->where .=$this->replaceFields($str);
+			$this->where .=' and '.$this->replaceFields($str);
 		}
 		return $this;
 	}
+	
 	//
 	// 查询 R
 	//
@@ -350,7 +344,6 @@ class pdoView extends dbBase
 		return $num[0];
 	}
 	
-
 		private function replaceFields($str)
 		{
 			return strtr($str,$this->tableInfo['fields']);
@@ -388,7 +381,7 @@ class pdoView extends dbBase
 				in_array($tableName,$return_value['tables']) or array_push($return_value['tables'],$tableName);
 			}
 			$return_value['fields'] = array_combine(array_values($config['fields']),$fieldKey);
-			$return_value['links'] = array_combine(str_replace('@',C('prefix'),array_keys($config['links'])),str_replace('@',C('prefix'),array_values($config['links'])));
+			$return_value['links'] = strtr(join(' and ',$config['links']),array('@'=>C('prefix')));
 			return $return_value;
 		}
 }
