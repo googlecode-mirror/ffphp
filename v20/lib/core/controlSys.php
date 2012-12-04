@@ -66,10 +66,10 @@ class control extends view
 				$this->checkType($v,$type) or $this->error404();
 				$item = $param;
 			}
-			//还有多余参数则返回404
-			$val and $this->error404();
 			$return_value[$item] = $v;
 		}
+		//还有多余参数则返回404
+		$val and $this->error404();
 		return $return_value;
 	}
 	//检测字符真实类型
