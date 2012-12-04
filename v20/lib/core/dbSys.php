@@ -384,6 +384,14 @@ class pdoView extends dbBase
 			$return_value['links'] = strtr(join(' and ',$config['links']),array('@'=>C('prefix')));
 			return $return_value;
 		}
+		
+		//设置字符集
+		public function setCharacter($sql){
+			DEBUG and self::$sql[]=$sql;
+			$pdo = $this->pdo->prepare($sql);
+			$pdo or errorMsg('<b>['.end(self::$sql).']</b> SQL执行失败!',E_USER_ERROR);
+			$pdo->execute();
+		}
 }
 
 /*
