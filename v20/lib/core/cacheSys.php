@@ -42,7 +42,7 @@ class cache
 			//如果没有二级更新则直接输出
 			echo $this->cacheContent,
 			'<span style="border:1px #ccc dashed;font-size:14px;padding:5px;"><font color="red">Cache Data</font> cacheKey:['.$this->cacheKey.'] time:',
-			mf() - $GLOBALS['start_time'],
+			Sys_Microtime() - $GLOBALS['start_time'],
 			'</span>';
 			exit;
 		}
