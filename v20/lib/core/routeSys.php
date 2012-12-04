@@ -68,7 +68,17 @@ class route
 	//解析默认地址
 	private function defaultUrl()
 	{
-		$urlInfo = array_filter(explode('/',$_SERVER['REDIRECT_URL']));
+		$urlInfo = array();
+		$urlStr = strtok($_SERVER['REDIRECT_URL'],'/');
+		if($urlStr!==false)
+		{
+			array_push($urlInfo,$urlStr);
+			while(($urlStr = strtok('/'))!==false)
+			{
+				$urlStr === '' or
+				array_push($urlInfo,$urlStr);
+			}
+		}
 		switch (count($urlInfo))
 		{
 			case 0 :
