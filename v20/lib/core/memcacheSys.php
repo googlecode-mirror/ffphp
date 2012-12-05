@@ -50,5 +50,8 @@ class memcache
 	{
 		return self::$mem->delete($key);
 	}
-
+	function connect()
+	{
+		return self::$mem;
+	}
 }
