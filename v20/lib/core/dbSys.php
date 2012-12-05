@@ -354,8 +354,8 @@ class pdoView extends dbBase
 			//生成缓存Key [tableSys#虚拟表名]
 			$memKey = 'tableSys#'.$this->tableName;
 			//DEBUG模式下不记录缓存
-			$info = DEBUG ? null : \SysFactory::memcache() -> get($memKey);
-			if(is_null($info))
+			$config = DEBUG ? false : \SysFactory::memcache() -> get($memKey);
+			if($config === false)
 			{
 				$config = $this->loadConfig(SYS_PATH.'data/'.strtolower($this->tableName).'.php');
 				\SysFactory::memcache() -> set($memKey,$config,3600);
@@ -507,8 +507,8 @@ class db
 		//生成缓存Key [tableSys#库名#表名]
 		$memKey = 'tableSys#'.$dbName.'#'.$tableName;
 		//DEBUG模式下不记录缓存
-		$info = DEBUG ? null : \SysFactory::memcache() -> get($memKey);
-		if(is_null($info))
+		$info = DEBUG ? false : \SysFactory::memcache() -> get($memKey);
+		if($info===false)
 		{
 			$res = self::getConnect($dbName)->query('DESC '.$tableName);
 			$res or errorMsg('<b>'.$tableName.'</b> 这个表在数据库中不存在!',E_USER_ERROR);
